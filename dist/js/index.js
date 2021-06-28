@@ -2,12 +2,16 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     //changing Value
+    const minAngles = 4,
+          minDefault = 1;
+
     const changingValue = {
-        squa: 0,
-        angles: 4, 
-        lamps: 0, 
-        chandeliers: 0    
+        squa: minDefault,
+        angles: minAngles, 
+        lamps: minDefault, 
+        chandeliers: minDefault    
     };
+    
     let manufacturer;
 
     Object.keys(changingValue).forEach(key => {
@@ -15,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(key).innerHTML = changingValue[key];
     });
 
-    function setText(name, value, max = 0){
-        changingValue[name] = Math.max(changingValue[name] + value, max);
+    function setText(name, value, min){
+        changingValue[name] = Math.max(changingValue[name] + value, min);
         document.getElementById(name).innerHTML = changingValue[name];
     };
 
-    function setTextAndCalcResult(name, value, max){
-        setText(name, value, max);
+    function setTextAndCalcResult(name, value, min = minDefault){
+        setText(name, value, min);
         result.textContent = calcTotal(manufacturer);
     };
 
@@ -34,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     decrementAngle.addEventListener('click', () => {
-        setTextAndCalcResult('angles', -1, 4);
+        setTextAndCalcResult('angles', -1, minAngles);
     });
 
     incrementAngle.addEventListener('click', () => {
-        setTextAndCalcResult('angles', 1, 4);
+        setTextAndCalcResult('angles', 1, minAngles);
     });
 
     decrementLamps.addEventListener('click', () => {
@@ -136,19 +140,24 @@ document.addEventListener('DOMContentLoaded', () => {
     showMaterials(materials);
 
     //calc
-    const result = document.querySelector('.calc__total-value');
+
+    const result = document.querySelector('.calc__total-value'),
+          angleCost = 180,
+          lampCost = 290,
+          chandelierCost = 450,
+          currency = '₽';
 
     function calcTotal(manufacturer) {
         const squa = changingValue['squa'],
-              angle = changingValue['angles'],
-              lamp = changingValue['lamps'],
-              chandelier = changingValue['chandeliers'];
+              anglesCount = changingValue['angles'],
+              lampsCount = changingValue['lamps'],
+              chandeliersCount = changingValue['chandeliers'];
 
-        if (!manufacturer || !squa || !angle || !lamp || !chandelier) {
+        if (!manufacturer || !squa || !anglesCount || !lampsCount || !chandeliersCount) {
             return '___';
         }
 
-        return(manufacturer * squa + 180 * angle + 290 * lamp + 450 * chandelier + '₽');
+        return(manufacturer * squa + angleCost * anglesCount + lampCost * lampsCount + chandelierCost * chandeliersCount + currency);
 
     }
 
