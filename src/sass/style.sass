@@ -1,0 +1,139 @@
+*
+    font-family: 'Montserrat', sans-serif
+    box-sizing: border-box
+    margin: 0
+    padding: 0
+
+.container
+    max-width: 1100px
+    margin: 0 auto    
+
+
+.calc
+    padding: 93px 0 30px 0 
+    &__title
+        font-weight: 600
+        font-size: 32px
+        text-align: center
+        color: #000000
+    &__wrap
+        padding-top: 40px
+        display: grid
+        grid-template-columns: 2fr 1fr 1fr
+        grid-column-gap: 30px 
+    &__material-title, &__room-title, &__light-title
+        margin-bottom: 30px
+        background: #F2F3F7
+        height: 50px
+        font-weight: 600
+        font-size: 18px
+        line-height: 50px
+        text-align: center
+        color: #000000
+    &__input-name
+        margin-bottom: 5px
+        font-weight: 500
+        font-size: 16px
+        line-height: 20px
+        color: #000000
+        &_material, &_manufacturer
+            grid-column: 1/3    
+        &_chandeliers, &_angle
+                margin-top: 14px      
+    &__materials-wrap
+        display: flex
+        justify-content: space-between
+    &__material-wrap, &__manufacturer-wrap
+        margin-top: 15px
+        display: grid
+        grid-template-columns: 120px 120px
+        grid-gap: 10px
+        grid-template-rows: max-content
+        grid-auto-rows: max-content
+        list-style: none
+    &__type-texture-name, &__manufacturer-name
+        height: 40px
+        font-weight: 400
+        font-size: 16px
+        line-height: 35px
+        text-align: center  
+        color: #000000
+        background-color: #FFFFFF
+        border: 1.5px solid #F2F3F7
+        box-sizing: border-box
+    .active-btn
+        background-color: #CC0033
+        color: #FFFFFF
+    &__room-wrap, &__light-wrap
+        display: grid
+        justify-content: center
+        grid-row-gap: 10px
+    &__counter
+        display: flex
+    &__minus, &__plus
+        height: 40px
+        width: 40px
+        font-weight: 500
+        font-size: 22px
+        line-height: 27px
+        text-align: center
+        background-color: #F2F3F7
+        color: #000
+        border: none
+    &__value
+        height: 40px
+        width: 60px
+        text-align: center
+        font-weight: 500
+        font-size: 22px
+        line-height: 37px
+        color: #000
+    &__descr
+        margin-top: 40px
+        font-weight: 400
+        font-size: 16px
+        line-height: 20px
+        text-align: center
+        color: #000
+        span
+            color: #CC0033
+    &__order-result
+        padding: 21px 49px 21px 29px
+        margin-top: 34px
+        background: #F2F3F7
+        display: flex
+        justify-content: space-between
+        align-items: baseline
+    &__total, &__order
+        display: flex
+    &__price, &__total-value
+        font-weight: 400
+        font-size: 24px
+        line-height: 29px
+        color: #000
+    &__total-value
+        margin-left: 10px
+        font-weight: 700
+    &__phone
+        padding: 15px 17px
+        width: 209px
+        height: 50px
+        background: #FFFFFF
+        border: none
+        border-radius: 5px
+        font-weight: 500
+        font-size: 16px
+        color: #A8A8A8
+        opacity: .8
+        outline: none
+    &__order-btn
+        margin-left: 10px
+        width: 180px
+        height: 50px
+        border: none
+        border-radius: 5px
+        font-weight: 500
+        font-size: 16px
+        background: #FFD200
+        text-align: center
+        color: #000
