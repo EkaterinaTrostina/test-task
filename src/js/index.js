@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(key).innerHTML = changingValue[key];
     });
 
-    function setText(name, value){
-        changingValue[name] = Math.max(changingValue[name] + value, 0);
+    function setText(name, value, max = 0){
+        changingValue[name] = Math.max(changingValue[name] + value, max);
         document.getElementById(name).innerHTML = changingValue[name];
     };
 
-    function setTextAndCalcResult(name, value){
-        setText(name, value);
+    function setTextAndCalcResult(name, value, max){
+        setText(name, value, max);
         result.textContent = calcTotal(manufacturer);
     };
 
@@ -34,11 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     decrementAngle.addEventListener('click', () => {
-        setTextAndCalcResult('angles', -1);
+        setTextAndCalcResult('angles', -1, 4);
     });
 
     incrementAngle.addEventListener('click', () => {
-        setTextAndCalcResult('angles', 1);
+        setTextAndCalcResult('angles', 1, 4);
     });
 
     decrementLamps.addEventListener('click', () => {
