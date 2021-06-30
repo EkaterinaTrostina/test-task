@@ -3,7 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     //changing Value
     const minAngles = 4,
-          minDefault = 0;
+          minDefault = 0,
+          maxDefault = 6;
 
     const changingValue = {
         squa: minDefault,
@@ -19,13 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById(key).innerHTML = changingValue[key];
     });
 
-    function setText(name, value, min){
-        changingValue[name] = Math.max(changingValue[name] + value, min);
+    function setText(name, value, min, max){
+        let actualValue = Math.max(changingValue[name] + value, min);
+        if(max){
+            actualValue = Math.min(actualValue, max)
+        }
+        changingValue[name] = actualValue;
         document.getElementById(name).innerHTML = changingValue[name];
     };
 
-    function setTextAndCalcResult(name, value, min = minDefault){
-        setText(name, value, min);
+    function setTextAndCalcResult(name, value, min = minDefault, max = maxDefault){
+        setText(name, value, min, max);
         result.textContent = calcTotal(manufacturer);
     };
 
@@ -61,30 +66,36 @@ document.addEventListener('DOMContentLoaded', () => {
         setTextAndCalcResult('chandeliers', 1);
     });
 
-    const dPremiun = { id: 0, name:'D-Premium', cost: 580};
-    const clipso = { id: 1, name: 'Clipso', cost: 2390};
-    const cerutti = { id: 2, name: 'Cerutti', cost: 2550};
-    const classic = { id: 3, name: 'Classic', cost: 140};
-    const pongs = { id: 4, name: 'Pongs', cost: 390};
-    const evolution = { id: 5, name: 'Evolution', cost: 290};
-    const teqtum = { id: 6, name: 'Teqtum', cost: 440};
-    const premium = { id: 7, name: 'Premium', cost: 190};
-    const lumfer = { id: 8, name: 'Lumfer', cost: 660};
-    const coldStretch = { id: 9, name: 'Cold Stretch', cost: 390};
+    class Manufacturer{
+        constructor(id, name, cost){
+            this.id = id;
+            this.name = name;
+            this.cost = cost;
+        }
+    }
+    const dPremiun = new Manufacturer(0, 'D-Premium', 580);
+    const clipso = new Manufacturer(1, 'Clipso', 2390);
+    const cerutti = new Manufacturer(2, 'Cerutti', 2550);
+    const classic = new Manufacturer(3, 'Classic', 140);
+    const pongs = new Manufacturer(4, 'Pongs', 390);
+    const evolution = new Manufacturer(5, 'Evolution', 290);
+    const teqtum = new Manufacturer(6, 'Teqtum', 440);
+    const premium = new Manufacturer(7, 'Premium', 190);
+    const lumfer = new Manufacturer(8, 'Lumfer', 660);
+    const coldStretch = new Manufacturer(9, 'Cold Stretch', 390);
 
-    let manufacturers = {
-        tissue: [dPremiun, clipso, cerutti],
-        matt: [classic, pongs, evolution, teqtum, premium, lumfer,coldStretch],
-        glossy: [classic, pongs, evolution, teqtum, lumfer],
-        satin: [classic, pongs, evolution, teqtum, lumfer],
+    class Material {
+        constructor(id, name, manufacturers){
+            this.id = id;
+            this.name = name;
+            this.manufacturers = manufacturers;
+        }
     };
+    const matt = new Material('matt', 'Матовые', [classic, pongs, evolution, teqtum, premium, lumfer,coldStretch]);
+    const tissue = new Material('matt', 'Тканевые', [dPremiun, clipso, cerutti]);
+    const glossy = new Material('glossy', 'Глянцевые', [classic, pongs, evolution, teqtum, lumfer]);
+    const satin = new Material('satin', 'Сатиновые', [classic, pongs, evolution, teqtum, lumfer]);
 
-    let materials = [
-        {id: 'matt', name: 'Матовые'},
-        {id: 'glossy', name: 'Глянцевые'},
-        {id: 'satin', name: 'Сатиновые'},
-        {id: 'tissue', name: 'Тканевые'}
-    ];
     let prevMaterial;
     let prevManufacturer;
 
@@ -95,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let i = 0; i < items.length; i++){
             const item = items[i];
             const htmlItem = document.createElement("LI");
-            const textnode = document.createTextNode(item['name']);
+            const textnode = document.createTextNode(item.name);
             htmlItem.appendChild(textnode);
             htmlItem.classList.add('calc__manufacturer-name');
             htmlItem.addEventListener('click', () => {
@@ -103,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     prevManufacturer.classList.remove('active-btn');
                 }
                 htmlItem.classList.add('active-btn');
-                manufacturer = item['cost'];
+                manufacturer = item.cost;
                 prevManufacturer = htmlItem;
                 result.textContent = calcTotal(manufacturer);
             })
@@ -119,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for(let i = 0; i < items.length; i++){
             const item = items[i];
             const htmlItem = document.createElement("LI");
-            const textnode = document.createTextNode(item['name']);
+            const textnode = document.createTextNode(item.name);
             htmlItem.appendChild(textnode);
             htmlItem.classList.add('calc__type-texture-name');
             htmlItem.addEventListener('click', () => {
@@ -130,15 +141,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 htmlItem.classList.add('active-btn');
                 prevMaterial = htmlItem;
-                let id = item['id'];
-                showList(manufacturers[id]);
+                let id = item.id;
+                showList(item.manufacturers);
                 result.textContent = calcTotal(manufacturer);
             })
             list.appendChild(htmlItem);
         };
     }
-    showMaterials(materials);
 
+    showMaterials([matt, tissue, glossy, satin]);
     //calc
 
     const result = document.querySelector('.calc__total-value'),
